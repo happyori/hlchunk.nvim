@@ -6,7 +6,7 @@ local fn = vim.fn
 local CHUNK_RANGE_RET = utils.CHUNK_RANGE_RET
 
 ---@class LineNumOpts: BaseModOpts
----@field use_treesitter boolean
+---@field use_treesitter boolean|fun(): boolean
 
 ---@class LineNumMod: BaseMod
 ---@field options LineNumOpts

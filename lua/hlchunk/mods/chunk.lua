@@ -6,7 +6,7 @@ local fn = vim.fn
 local CHUNK_RANGE_RET = utils.CHUNK_RANGE_RET
 
 ---@class ChunkOpts: BaseModOpts
----@field use_treesitter boolean
+---@field use_treesitter boolean|fun(): boolean
 ---@field chars table<string, string>
 ---@field textobject string
 ---@field max_file_size number

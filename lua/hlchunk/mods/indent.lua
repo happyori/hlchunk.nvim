@@ -8,7 +8,7 @@ local fn = vim.fn
 local ROWS_INDENT_RETCODE = utils.ROWS_INDENT_RETCODE
 
 ---@class IndentOpts: BaseModOpts
----@field use_treesitter boolean
+---@field use_treesitter boolean|fun(): boolean
 ---@field chars table<string, string>
 
 ---@class IndentMod: BaseMod

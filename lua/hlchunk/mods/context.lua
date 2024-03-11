@@ -5,7 +5,7 @@ local api = vim.api
 local fn = vim.fn
 
 ---@class ContextOpts: BaseModOpts
----@field use_treesitter boolean
+---@field use_treesitter boolean|fun(): boolean
 ---@field chars table<string, string>
 
 ---@class ContextMod: BaseMod

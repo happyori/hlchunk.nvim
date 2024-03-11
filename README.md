@@ -132,7 +132,7 @@ The script comes with the following defaults:
 
     indent = {
         enable = true,
-        use_treesitter = false,
+        use_treesitter = function() return false end, -- this can also be used as a function
         chars = {
             "│",
         },

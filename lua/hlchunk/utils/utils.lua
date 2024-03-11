@@ -85,13 +85,14 @@ M.CHUNK_RANGE_RET = {
 
 ---@param mod BaseMod
 ---@param line? number the line number we want to get the chunk range, with 1-index
----@param opts? {use_treesitter: boolean}
+---@param opts? {use_treesitter: boolean|fun(): boolean}
 ---@return CHUNK_RANGE_RETCODE enum
 ---@return table<number, number>
 ---@diagnostic disable-next-line: unused-local
 function M.get_chunk_range(mod, line, opts)
     opts = opts or { use_treesitter = false }
     line = line or fn.line(".")
+    opts.use_treesitter = M.unwrap_function_or_return(opts.use_treesitter)
 
     local beg_row, end_row
 
@@ -138,15 +139,16 @@ end
 
 ---@param mod BaseMod
 ---@param line? number the line number we want to get the indent range
----@param opts? {use_treesitter: boolean}
+---@param opts? {use_treesitter: boolean|fun(): boolean}
 ---@return table<number, number> | nil not include end point
 function M.get_indent_range(mod, line, opts)
     -- TODO: fix bugs of this function, and ref the return value
     line = line or fn.line(".")
     opts = opts or { use_treesitter = false }
+    local use_treesitter = M.unwrap_function_or_return(opts.use_treesitter)
 
     local _, rows_indent_list = M.get_rows_indent(mod, nil, nil, {
-        use_treesitter = opts.use_treesitter,
+        use_treesitter = use_treesitter,
         virt_indent = true,
     })
     if not rows_indent_list or rows_indent_list[line] < 0 then
@@ -240,6 +242,18 @@ end
 function M.col_in_screen(col)
     local leftcol = vim.fn.winsaveview().leftcol
     return col >= leftcol
+end
+
+---Checks if the value is a function unwraps it or returns the value
+---@generic T
+---@param value T|fun(): T
+---@return T
+function M.unwrap_function_or_return(value)
+    if type(value) == "function" then
+        return value()
+    else
+        return value
+    end
 end
 
 return M
